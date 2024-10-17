@@ -9,7 +9,7 @@ const formSchema = new mongoose.Schema({
     email:{
         type:String,
         require:true,
-        unique:true
+        uniq:true
     },
     phone:{
         type:String,
