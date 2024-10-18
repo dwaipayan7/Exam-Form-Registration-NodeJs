@@ -50,4 +50,22 @@ router.post('/register', async (req, res) => {
     }
 });
 
+router.get('/register', async(req, res) =>{
+
+   try {
+    
+    let response = await Form.find();
+    console.log("Data Fetched");
+    res.status(200).json(response);
+
+   } catch (error) {
+
+        console.log(error);
+        res.status(500).json({ message: "Failed to fetch data" });
+    
+   }
+
+
+});
+
 module.exports = router;
