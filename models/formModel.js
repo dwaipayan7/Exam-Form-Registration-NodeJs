@@ -15,7 +15,7 @@ const formSchema = new mongoose.Schema({
         type:String,
         require:true
     },
-    examCourse: {
+    selectedCourse: {
         type: String,
         require: true
     },
