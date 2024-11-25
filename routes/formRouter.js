@@ -6,12 +6,12 @@ const router = express.Router();
 
 // Route for handling form registration
 router.post('/register', async (req, res) => {
-    const { name, email, phone, examCourse, dob } = req.body;
+    const { name, email, phone, selectedCourse, dob } = req.body;
 
     // Validation: Check if required fields are present
-    if (!name || !email || !phone || !examCourse || !dob) {
+    if (!name || !email || !phone || !selectedCourse || !dob) {
         return res.status(400).json({
-            message: "Missing required fields: name, email, phone, examCourse, and dob are mandatory.",
+            message: "Missing required fields: name, email, phone, selectedCourse, and dob are mandatory.",
         });
     }
 
@@ -25,7 +25,7 @@ router.post('/register', async (req, res) => {
 
     try {
         // Check if the course has available seats
-        const course = await Course.findOne({ examCourse });
+        const course = await Course.findOne({ selectedCourse });
 
         if (!course) {
             return res.status(404).json({ message: "Course not found" });
@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
             name,
             email,
             phone,
-            examCourse,
+            selectedCourse,
             dob,
         });
 
@@ -78,14 +78,14 @@ router.get('/courses', async (req, res) => {
 
 // Route to create or update a course (Admin Use)
 router.post('/courses', async (req, res) => {
-    const { examCourse, totalSeats } = req.body;
+    const { selectedCourse, totalSeats } = req.body;
 
-    if (!examCourse || !totalSeats) {
+    if (!selectedCourse || !totalSeats) {
         return res.status(400).json({ message: "Course name and total seats are required" });
     }
 
     try {
-        let course = await Course.findOne({ examCourse });
+        let course = await Course.findOne({ selectedCourse });
 
         if (course) {
             // Update existing course
@@ -94,7 +94,7 @@ router.post('/courses', async (req, res) => {
         } else {
             // Create a new course
             course = new Course({
-                examCourse,
+                selectedCourse,
                 totalSeats,
                 availableSeats: totalSeats,
             });
