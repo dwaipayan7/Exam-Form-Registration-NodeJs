@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { Form, Course } = require('../models/formModel');
-
+const Form = require('../models/formModel');
+const Course = require('../models/courseModel')
 const router = express.Router();
 
 // Route for handling form registration
@@ -65,7 +65,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Route to display available seats for all courses
+
 router.get('/courses', async (req, res) => {
     try {
         const courses = await Course.find();
@@ -76,7 +76,8 @@ router.get('/courses', async (req, res) => {
     }
 });
 
-// Route to create or update a course (Admin Use)
+
+//(Admin Use)
 router.post('/courses', async (req, res) => {
     const { selectedCourse, totalSeats } = req.body;
 
