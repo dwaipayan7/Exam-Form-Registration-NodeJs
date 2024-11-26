@@ -9,10 +9,10 @@ mongoose.connect(process.env.MONGO_URL)
         
         // Define four places with future dates within the next two months
         const examCentres = [
-            { place: 'Kolkata', examDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000) }, // 15 days later
-            { place: 'Kalyani', examDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) }, // 30 days later
-            { place: 'Krishnanagar', examDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000) }, // 45 days later
-            { place: 'Howrah', examDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000) }, // 60 days later
+            { place: 'Kolkata', examDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), availableSeats: 30 }, // 15 days later
+            { place: 'Kalyani', examDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),availableSeats: 12 }, // 30 days later
+            { place: 'Krishnanagar', examDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),availableSeats: 24 }, // 45 days later
+            { place: 'Howrah', examDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),availableSeats: 10 }, // 60 days later
         ];
 
         return ExamCentre.insertMany(examCentres);

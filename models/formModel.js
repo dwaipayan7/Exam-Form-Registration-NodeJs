@@ -15,19 +15,20 @@ const formSchema = new mongoose.Schema({
         type:String,
         require:true
     },
-    selectedCourse: {
+    subject: {
         type: String,
         require: true
     },
-    dob:{
-        type: Date,
-        require:true
+
+    location:{
+        type:String,
+        required:true
     },
-    registrationDate:{
+    examDate:{
         type:Date,
-        default: Date.now,
         required:true
     }
+
 });
 
 

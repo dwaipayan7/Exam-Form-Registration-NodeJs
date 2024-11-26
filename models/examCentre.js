@@ -9,7 +9,13 @@ const examCentreSchema = new mongoose.Schema({
     examDate:{
         type:Date,
         required:true
-    }
+    },
+    availableSeats: {
+        type: Number,
+        required: true,
+        default: 10
+    },
+
 
 });
 

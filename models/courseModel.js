@@ -1,18 +1,10 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-    selectedCourse: {
+    subject: {
         type: String,
         required: true,
         unique: true,
-    },
-    totalSeats: {
-        type: Number,
-        required: true,
-    },
-    availableSeats: {
-        type: Number,
-        required: true,
     },
 });
 
