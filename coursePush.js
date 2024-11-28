@@ -10,16 +10,18 @@ if (!MONGO_URI) {
   process.exit(1);
 }
 
-// Predefined subjects to add
+// Predefined computer-related subjects to add
 const subjects = [
-  { subject: 'Mathematics' },
-  { subject: 'Physics' },
-  { subject: 'Chemistry' },
-  { subject: 'Biology' },
-  { subject: 'Computer Science' },
-  { subject: 'History' },
-  { subject: 'Geography' },
-  { subject: 'Economics' },
+  { subject: 'Computer Programming' },
+  { subject: 'Data Structures and Algorithms' },
+  { subject: 'Database Management Systems' },
+  { subject: 'Operating Systems' },
+  { subject: 'Computer Networks' },
+  { subject: 'Software Engineering' },
+  { subject: 'Web Development' },
+  { subject: 'Artificial Intelligence' },
+  { subject: 'Machine Learning' },
+  { subject: 'Computer Graphics' },
 ];
 
 // Connect to MongoDB and insert subjects
@@ -34,7 +36,7 @@ const pushSubjects = async () => {
 
     // Insert subjects into the Course collection
     const result = await Course.insertMany(subjects, { ordered: false });
-    console.log('Subjects added successfully:', result);
+    console.log('Computer-related subjects added successfully:', result);
 
     // Close the connection
     mongoose.connection.close();

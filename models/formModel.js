@@ -1,37 +1,33 @@
 const mongoose = require('mongoose');
 
 const formSchema = new mongoose.Schema({
-
-    name:{
+    name: {
         type: String,
-        require: true
+        required: true
     },
-    email:{
-        type:String,
-        require:true,
-        uniq:true
+    email: {
+        type: String,
+        required: true,
+        unique: true  
     },
-    phone:{
-        type:String,
-        require:true
+    phone: {
+        type: String,
+        required: true,
+        unique: true  
     },
     subject: {
         type: String,
-        require: true
+        required: true
     },
-
-    location:{
-        type:String,
-        required:true
+    location: {
+        type: String,
+        required: true
     },
-    examDate:{
-        type:Date,
-        required:true
+    examDate: {
+        type: Date,
+        required: true
     }
-
 });
-
-
 
 const Form = mongoose.model('Form', formSchema);
 

@@ -6,9 +6,9 @@ const router = express.Router();
 router.get('/exam-centres', async (req, res) => {
   try {
     const examCentres = await ExamCentre.find();
-   if (!examCentres) {
-    console.log("first")
-   }
+  //  if (!examCentres) {
+  //   console.log("first")
+  //  }
     console.log(examCentres)
     res.status(200).json(examCentres);
   } catch (error) {
