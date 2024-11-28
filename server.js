@@ -14,10 +14,11 @@ connectDB();
 
 // Set up CORS configuration
 const corsOptions = {
-  origin: 'http://localhost:3000',
-  methods: 'GET,POST,PUT,DELETE', 
-  allowedHeaders: 'Content-Type,Authorization',
+  origin: ['http://localhost:3000', 'https://seat-finder-tau.vercel.app', 'https://seat-finder-r5e05a70d-arnabs-projects-5f518fb0.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
+
 
 app.use(cors(corsOptions));
 
