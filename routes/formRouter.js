@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Form = require('../models/formModel');
-const Course = require('../models/courseModel');
-const ExamCentre = require('../models/examCentre');
+const Form = require('../models/formModel'); // Ensure this path matches your project structure
+const ExamCentre = require('../models/examCentre'); // Ensure this path matches your project structure
 const router = express.Router();
 
 // Route for handling form registration
 router.post('/register', async (req, res) => {
+    console.log("Request body:", req.body); // Debugging line
+
     try {
         const { name, email, phone, subject, location, examDate } = req.body;
 
@@ -17,102 +18,56 @@ router.post('/register', async (req, res) => {
             });
         }
 
-        // Validate email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({ message: "Invalid email format" });
+        // Check if the exam date is in the future
+        if (new Date(examDate) < new Date()) {
+            return res.status(400).json({
+                message: "The exam date must be in the future.",
+            });
         }
 
-        // Check if the course exists and has available seats
-        const course = await Course.findOne({ subject: subject });
-        // if (!course) {
-        //     return res.status(404).json({ message: "Course not found" });
-        // }
+        // Check if the exam centre exists and has available seats for the selected date
+        const examCentre = await ExamCentre.findOne({ place: location, examDate: new Date(examDate) });
+        if (!examCentre) {
+            return res.status(404).json({
+                message: "Exam centre not found or does not exist for the selected date.",
+            });
+        }
 
-        const examCentre = await ExamCentre.findOne({ place: location });
-        // if (!examCentre) {
-        //     return res.status(404).json({ message: "Exam centre not found" });
-        // }
+        if (examCentre.availableSeats <= 0) {
+            return res.status(400).json({
+                message: "No available seats for the selected exam centre and date.",
+            });
+        }
 
-        // if (examCentre.availableSeats <= 0) {
-        //     return res.status(400).json({ message: "No seats available at this exam centre" });
-        // }
-
-        // Decrement available seats
-        // examCentre.availableSeats -= 1;
-        // await examCentre.save();
-
-        // Create a new Form entity with the unified format
-        const formEntity = {
+        // Create a new Form entity and save it to the database
+        const newForm = new Form({
             name,
             email,
             phone,
             subject,
             location,
             examDate: new Date(examDate),
-        };
+        });
 
-        // Save the form entity to the database
-        const newForm = new Form(formEntity);
         await newForm.save();
 
+        // Decrease available seats by 1 and save the updated exam centre
+        examCentre.availableSeats -= 1;
+        await examCentre.save();
+
+        // Return success response
         res.status(201).json({
-            message: "Registered Successfully",
-            data: formEntity,
-            // availableSeats: examCentre.availableSeats,
+            message: "Registration successful!",
+            availableSeats: examCentre.availableSeats,
         });
+
     } catch (error) {
-        console.error("Error during registration:", error);
+        console.log("Error during registration:", error);
         res.status(500).json({
             message: "Failed to register",
             error: error.message,
         });
     }
 });
-
-
-
-router.get('/courses', async (req, res) => {
-    try {
-        const courses = await Course.find();
-        res.status(200).json(courses);
-    } catch (error) {
-        console.error("Error fetching courses:", error);
-        res.status(500).json({ message: "Failed to fetch courses" });
-    }
-});
-
-
-//(Admin Use)
-// router.post('/courses', async (req, res) => {
-//     const { selectedCourse, totalSeats } = req.body;
-
-//     if (!selectedCourse || !totalSeats) {
-//         return res.status(400).json({ message: "Course name and total seats are required" });
-//     }
-
-//     try {
-//         let course = await Course.findOne({ selectedCourse });
-
-//         if (course) {
-//             // Update existing course
-//             course.totalSeats = totalSeats;
-//             course.availableSeats = totalSeats - (course.totalSeats - course.availableSeats); 
-//         } else {
-//             // Create a new course
-//             course = new Course({
-//                 selectedCourse,
-//                 totalSeats,
-//                 availableSeats: totalSeats,
-//             });
-//         }
-
-//         await course.save();
-//         res.status(201).json({ message: "Course updated successfully", course });
-//     } catch (error) {
-//         console.error("Error updating course:", error);
-//         res.status(500).json({ message: "Failed to update course" });
-//     }
-// });
 
 module.exports = router;
