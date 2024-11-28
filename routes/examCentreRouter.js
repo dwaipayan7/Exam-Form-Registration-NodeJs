@@ -9,7 +9,7 @@ router.get('/exam-centres', async (req, res) => {
   //  if (!examCentres) {
   //   console.log("first")
   //  }
-    console.log(examCentres)
+    // console.log(examCentres)
     res.status(200).json(examCentres);
   } catch (error) {
     console.error("Error fetching exam centers:", error);
