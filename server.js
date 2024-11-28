@@ -10,14 +10,13 @@ config();
 
 const app = express();
 
-// Connect to database
 connectDB();
 
 // Set up CORS configuration
 const corsOptions = {
-  origin: 'http://localhost:3001', // Allow requests only from this origin
-  methods: 'GET,POST,PUT,DELETE', // Allowed HTTP methods
-  allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+  origin: 'http://localhost:3001',
+  methods: 'GET,POST,PUT,DELETE', 
+  allowedHeaders: 'Content-Type,Authorization',
 };
 
 app.use(cors(corsOptions));
@@ -31,7 +30,7 @@ app.use('/api', examCentreRouter);
 app.use('/api', courseRouter);
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Running on server: ${PORT}`);
 });
