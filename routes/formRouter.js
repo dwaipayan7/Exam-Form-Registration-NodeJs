@@ -25,6 +25,21 @@ router.post('/register', async (req, res) => {
             });
         }
 
+        // Check if the email or phone already exists in the database
+        const existingEmail = await Form.findOne({ email });
+        if (existingEmail) {
+            return res.status(400).json({
+                message: "A registration with this email already exists.",
+            });
+        }
+
+        const existingPhone = await Form.findOne({ phone });
+        if (existingPhone) {
+            return res.status(400).json({
+                message: "A registration with this phone number already exists.",
+            });
+        }
+
         // Check if the exam centre exists and has available seats for the selected date
         const examCentre = await ExamCentre.findOne({ place: location, examDate: new Date(examDate) });
         if (!examCentre) {
