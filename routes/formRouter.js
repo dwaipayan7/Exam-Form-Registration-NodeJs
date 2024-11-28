@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Route for handling form registration
 router.post('/register', async (req, res) => {
-    console.log("Request body:", req.body); // Debugging line
+    // console.log("Request body:", req.body); // Debugging line
 
     try {
         const { name, email, phone, subject, location, examDate } = req.body;
@@ -77,7 +77,7 @@ router.post('/register', async (req, res) => {
         });
 
     } catch (error) {
-        console.log("Error during registration:", error);
+        // console.log("Error during registration:", error);
         res.status(500).json({
             message: "Failed to register",
             error: error.message,
